@@ -26,11 +26,13 @@ def tal_func(video):
 
     print('Processing video...')
     results=process_video(tmp_dir)
-    return results
+
+    outvid='./tmp/result.mp4'
+    return outvid,results
 
 
 inputs=gr.Video()
-outputs=gr.JSON()
+outputs=['playable_video',gr.JSON()]
 demo = gr.Interface(tal_func, 
                     inputs, 
                     outputs, 
@@ -40,7 +42,7 @@ demo = gr.Interface(tal_func,
 
 if __name__ == "__main__":
     # demo.launch(share=True,auth=('zhx','123'))
-    demo.launch(share=False)
+    demo.launch(share=True)
 
 
 

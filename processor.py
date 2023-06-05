@@ -2,7 +2,7 @@ import os,time
 from extract_rawframes import extract_from_video
 from extract_features import set_model,extract_feat
 from tal_alg.CoRL.inference import infer_single
-from post_process import post_process
+from post_process import post_process,show_in_video
 import pickle
 import cv2
 from termcolor import colored
@@ -53,6 +53,7 @@ def process_video(tmp_dir):
     print(colored('<Localization Done>:','green')+'running time {:.3f} s'.format(t2-t1))
 
     keep_results=post_process(results,score_thresh=0.2)
+    show_in_video(cap,keep_results)
 
 
     print(keep_results)
