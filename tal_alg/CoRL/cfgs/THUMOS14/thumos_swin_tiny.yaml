@@ -1,0 +1,50 @@
+# Hyperparameters for training
+
+#dataset info
+dataset: "THUMOS14"
+data_path: "./dataset/THUMOS14" #LACP->THUMOS14
+modal: "all" #['rgb', 'flow', 'all']
+frames_per_sec: 25 
+segment_frames_num: 16 
+feature_dim: 768
+tIoU_thresh: "np.linspace(0.1, 0.7, 7)" #ACM np.arange(0.1, 1.00, 0.10)"
+
+#training setting
+num_workers: 4
+num_iters: 1200
+test_iter: 50
+batch_size: 16
+lr: 0.0001 #0.0001
+weight_decay: 0.0005 #0.005 0.0005
+dropout: 0.7
+r_act: 8
+lambdas: "[0,0.5,1,1]" #[vid_loss,frame_loss,bkg_frame_loss,count_loss,feat_loss]
+transformer_args: {'layer_num': 1,'drop_out': 0.3,'num_heads': 8,'dim_feedforward': 128} #2 0.3 8 256/128
+
+#after processing param  #best initial
+scale: 3  #2  24 
+class_thresh: 0.5 #0.3 0.5
+act_thresh_cas: "np.arange(0.0, 0.25, 0.025)"  #0.25 0.25
+act_thresh_agnostic: "np.arange(0.5, 0.725, 0.025)" #0.725 0.725
+nms_thresh: 0.5   #0.5  0.55
+nms_alpha: 0.2
+_lambda: 0.25 #0.25  0.25
+gamma: 0  # 0   0.2
+blocked_videos: ['video_test_0000270','video_test_0001292','video_test_0001496']
+
+#structure control
+supervision: "point"
+manual_id: 0  #default 0
+BaS: "True"                #Backgroud Supress
+part_topk: "True"          #when calculate video-level predictions only GT class use topk way ,others use mean
+agnostic_inf: "True"       #agnostic class inference
+count_loss: "False"
+
+pseudo_freq: 0
+
+stage: 2
+run_info: 'CoRL'   #point_detector/proto(maskSA_CA)(video0_pN5) 54.23    point_detector/proto_mask(SAmask_CA)(video0_pN5) 54.43
+gpu: '0'
+num_segments: -1 #ACM 750
+
+

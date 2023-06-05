@@ -1,0 +1,49 @@
+# Hyperparameters for training
+
+#dataset info
+dataset: "ActivityNet13"
+data_path: "/mnt/data1/zhx/dataset/ActivityNet13"
+modal: "all" #['rgb', 'flow', 'all']
+frames_per_sec: 25
+segment_frames_num: 16
+feature_dim: 2048
+scale: 20 #u
+
+
+#training setting
+num_workers: 8 #u
+num_iters: 20000 
+test_iter: 500 
+batch_size: 64 #u
+lr: 0.0001
+weight_decay: 0.0000005
+dropout: 0.7
+
+
+r_act: 2
+class_thresh: 0.1 
+
+act_thresh_cas: "[0.005, 0.01, 0.015, 0.02]" #"np.arange(0.15, 0.25, 0.05)"             
+act_thresh_agnostic: "np.arange(0.5, 0.725, 0.025)" #"np.arange(0.5, 0.8, 0.025)" #
+lambdas: "[1,0.5,1,0]" #u
+transformer_args: {'layer_num': 0,'drop_out': 0.3,'num_heads': 8,'dim_feedforward': 256}
+
+#post_process setting
+nms_thresh: 0.9  #u
+tIoU_thresh: "np.arange(0.50, 1.00, 0.05)"
+_lambda: 0.25 #0.2  0.25
+gamma: 0.2  # 0   0.2
+
+#structure control
+supervision: "point"
+manual_id: 0  #default 0
+BaS: "True"                #Backgroud Supress
+part_topk: "True"          #when calculate video-level predictions only GT class use topk way ,others use mean
+agnostic_inf: "True"       #agnostic class inference
+count_loss: "False"
+
+run_info: "baseline_act_0" #u
+gpu: "0"
+num_segments: 75 #ACM 75
+
+
