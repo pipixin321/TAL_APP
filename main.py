@@ -5,7 +5,7 @@ import shutil
 from processor import process_video
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-def tal_func(video):
+def tal_func(video,progress=gr.Progress(track_tqdm=True)):
     print('Creating tmp folder')
     tmp_dir=os.path.join(current_dir,'tmp')
     if os.path.exists(tmp_dir): 
@@ -38,11 +38,12 @@ demo = gr.Interface(tal_func,
                     outputs, 
                     examples=[os.path.join(os.path.dirname(__file__), 
                                 "examples/video_test_0000004.mp4")],
-                    cache_examples=True)
+                    cache_examples=False)
 
 if __name__ == "__main__":
     # demo.launch(share=True,auth=('zhx','123'))
-    demo.launch(share=True)
+    # demo.launch(share=False)
+    demo.queue(concurrency_count=20,status_update_rate=0.1).launch(share=False)
 
 
 

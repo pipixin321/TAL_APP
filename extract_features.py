@@ -6,6 +6,7 @@ import pickle,time
 import mmcv
 import numpy as np
 import torch
+from tqdm import tqdm
 from termcolor import colored
 
 from mmaction.datasets.pipelines import Compose
@@ -161,21 +162,24 @@ def extract_feat(data_pipeline,model,FEAT_CFGS):
 
 def forward_data(args,frame_dir,num_frames,start_index,
                  data_pipeline,model,device,batch_size):
-    t3 = time.perf_counter()
-    tmpl = dict(frame_dir=frame_dir,total_frames=num_frames,
-                filename_tmpl=args.f_tmpl,start_index=start_index,modality=args.modality)
-    sample = data_pipeline(tmpl)
-    imgs = sample['imgs'] #[N,C,T,H,W]
-    imgs = imgs.unsqueeze(1)
-    t4 = time.perf_counter()
-    print(colored('<Video Clipped>:','green')+'clip shape={},running time {:.3f} s'.format(imgs.shape,t4-t3))
+    iters_data=tqdm(range(1),desc='Clipping Video...')
+    for i in iters_data:
+        t3 = time.perf_counter()
+        tmpl = dict(frame_dir=frame_dir,total_frames=num_frames,
+                    filename_tmpl=args.f_tmpl,start_index=start_index,modality=args.modality)
+        sample = data_pipeline(tmpl)
+        imgs = sample['imgs'] #[N,C,T,H,W]
+        imgs = imgs.unsqueeze(1)
+        t4 = time.perf_counter()
+        print(colored('<Video Clipped>:','green')+'clip shape={},running time {:.3f} s'.format(imgs.shape,t4-t3))
 
     print(colored('>>>Extracting Feature...','yellow'))
     results=[]
     num_clip = imgs.shape[0]
     total_iters=num_clip//batch_size
     with torch.no_grad():
-        for i in range(total_iters):
+        iters_feat=tqdm(range(total_iters),total=total_iters,desc='Extracting Feature') #if progress is None else progress.tqdm(range(total_iters),desc='Extracting Feature')
+        for i in iters_feat:
             part=imgs[batch_size*i:batch_size*(i+1)]
             part = part.to(device)
             feat = model.forward(part, return_loss=False)

@@ -14,7 +14,7 @@ def post_process(results=None,score_thresh=0.2,inter_thresh=0.9):
         with open(tmp_json_path,'r') as f:
             results=json.load(f)
 
-    results=list(filter(lambda x:x['score']>score_thresh,results))
+    results=list(filter(lambda x:x['score']>score_thresh,results)) 
 
     keep_result=dict()
     for c,item in groupby(results, key=itemgetter('label')):
@@ -35,12 +35,16 @@ def post_process(results=None,score_thresh=0.2,inter_thresh=0.9):
             else:
                 continue
         keep_result[c]=keep_c
-
     keep_result=[keep_result[c][i] for c in keep_result.keys() for i in range(len(keep_result[c]))]
     
     return keep_result
 
 def show_in_video(cap,preds):
+    cls_lst=[]
+    for p in preds:
+        if p['label'] not in cls_lst:
+            cls_lst.append(p['label'])
+    
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     duration=cap.get(7)/cap.get(5)
@@ -53,7 +57,7 @@ def show_in_video(cap,preds):
         w=new_short
         h=int(height*w/width)
     print(w,h)
-    dw,dh=100,15
+    dw,dh=100,10
     out_mp4 = cv2.VideoWriter("./tmp/result.mp4", 
                               cv2.VideoWriter_fourcc(*'mp4v'),
                               30,(w+dw,h+dh))
@@ -62,22 +66,20 @@ def show_in_video(cap,preds):
         t=cap.get(0)/1000
         ret,frame=cap.read()
         if ret:
-            print(t)
+            # print(t)
             frame=cv2.resize(frame,(w,h))
-            frame=cv2.putText(frame,"time:%.2fs"%(t),(10,20),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
+            frame=cv2.putText(frame,"time:%.2fs"%(t),(10,10),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
 
             # initialize output frame
-            color_lst=[[200,200,200],#mask两侧颜色
-                    [255,255,255],#进度条底色
-                    [255,0,0],#进度条背景片段颜色
-                    [0,0,255]#进度条前景片段颜色
-                    ]
+            color_lst=[[255,255,255],#进度条底色
+                       [200,200,200],#mask两侧颜色
+                        [153,153,153],#进度条背景片段颜色
+                        [[0,102,255],[153,0,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255],
+                         [0,102,255],[153,0,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255]]#进度条前景片段颜色
+                        ]
             f_out=np.zeros((h+dh,w+dw),dtype=np.uint8)
             f_out=cv2.cvtColor(f_out,cv2.COLOR_GRAY2BGR)
             f_out[:,:,:]=color_lst[0]
-
-            #frame
-            f_out[:h,int(dw/2):int(w+dw/2),:]=frame
 
             #progress bar
             f_out[h:,int(dw/2):int(w+dw/2),:]=color_lst[1]
@@ -88,26 +90,33 @@ def show_in_video(cap,preds):
 
             #prediction
             #get prediction for current frame
-            # max_score=0
-            # pred_max=None
-            # for pred in preds:
-            #     score=pred['score']
-            #     s,e=pred["segment"]
-            #     if t>s and t<e and score>max_score:
-            #         max_score=score
-            #         pred_max=pred
-            # if pred_max is not None:
+            max_score=0
+            cur_pred=None
             for pred in preds:
-                score=pred['score']
-                s,e=pred["segment"]
-                if t>s and t<e:
-                    f_out[:,0:int(dw/2)]=color_lst[3]
-                    f_out[:,-int(dw/2):-1,:]=color_lst[3]
-                    f_out[h:,int(dw/2+w*s/duration):cur_x]=color_lst[3]
-                    f_out=cv2.putText(f_out,'prediction:{}({:.2f}s~{:.2f}s)'.format(pred["label"],s,e)
-                                      ,(10,40),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
-                elif t>e:
-                    f_out[h:,int(dw/2+w*s/duration):int(dw/2+w*e/duration)]=color_lst[3]
+                if t>pred["segment"][0] and t<pred["segment"][1] and pred['score']>max_score:
+                    max_score=pred['score']
+                    cur_pred=pred
+            past_pred=[]
+            for pred in preds:
+                if pred['segment'][1] < t:
+                    past_pred.append(pred)
+            
+            if cur_pred is not None:
+                s,e=cur_pred["segment"]
+                f_color=color_lst[3][cls_lst.index(cur_pred['label'])]
+                f_out[:,0:int(dw/2)]=f_color
+                f_out[:,-int(dw/2):-1,:]=f_color
+                f_out[h:,int(dw/2+w*s/duration):cur_x]=f_color
+                frame=cv2.putText(frame,'prediction:{}({:.2f}s~{:.2f}s)'.format(cur_pred["label"],s,e)
+                                      ,(10,20),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
+            if len(past_pred)>0:
+                for p_pred in past_pred:
+                    s,e=p_pred["segment"]
+                    p_color=color_lst[3][cls_lst.index(p_pred['label'])]
+                    f_out[h:,int(dw/2+w*s/duration):int(dw/2+w*e/duration)]=p_color
+    
+            #frame
+            f_out[:h,int(dw/2):int(w+dw/2),:]=frame
 
             out_mp4.write(f_out)
     cap.release()
