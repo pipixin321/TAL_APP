@@ -126,3 +126,5 @@
 /mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000635.mp4
 /mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000450.mp4
 /mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000062.mp4
+/mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000635.mp4
+/mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000062.mp4

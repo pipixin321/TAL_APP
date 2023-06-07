@@ -82,7 +82,7 @@ MODEL_CFGS={
             test_cfg=dict(average_clips=None,feature_extraction=True)),
         'ckpt':os.path.join(ckpt_path,'i3d_r50_32x2x1_100e_kinetics400_rgb_20200614-c25ef9a4.pth')
     },
-    
+
     'slowfast101':{
         'data_pipeline':
             [
@@ -133,5 +133,41 @@ MODEL_CFGS={
                 spatial_type='avg'),
             test_cfg=dict(average_clips=None,feature_extraction=True)),
         'ckpt':os.path.join(ckpt_path,'slowfast_r101_8x8x1_256e_kinetics400_rgb_20210218-0dd54025.pth')
+    },
+
+    'csn':{
+        'data_pipeline':
+            [
+            dict(type='UntrimmedSampleFrames',clip_len=32,frame_interval=8,start_index=1),
+            dict(type='RawFrameDecode'),
+            dict(type='Resize', scale=(-1, 256)),
+            dict(type='CenterCrop', crop_size=256),
+            dict(type='Normalize',mean=[123.675, 116.28, 103.53],std=[58.395, 57.12, 57.375],to_bgr=False),
+            dict(type='FormatShape', input_format='NCTHW'),
+            dict(type='Collect', keys=['imgs'], meta_keys=[]),
+            dict(type='ToTensor', keys=['imgs'])
+            ],
+        'model_cfg':
+            dict(
+            type='Recognizer3D',
+            backbone=dict(
+                type='ResNet3dCSN',
+                pretrained2d=False,
+                pretrained=  # noqa: E251
+                'https://download.openmmlab.com/mmaction/recognition/csn/ircsn_from_scratch_r152_ig65m_20200807-771c4135.pth',  # noqa: E501
+                depth=152,
+                with_pool2=False,
+                bottleneck_mode='ir',
+                norm_eval=True,
+                bn_frozen=True,
+                zero_init_residual=False),
+            cls_head=dict(
+                type='I3DHead',
+                num_classes=400,
+                in_channels=2048,
+                spatial_type='avg'),
+            test_cfg=dict(average_clips=None,feature_extraction=True)),
+
+        'ckpt':os.path.join(ckpt_path,'ircsn_ig65m_pretrained_bnfrozen_r152_32x2x1_58e_kinetics400_rgb_20200812-9037a758.pth')
     },
 }

@@ -30,7 +30,7 @@ def process_video(tmp_dir,new_short):
         print('Finish extract raw frames')
 
     #extract feature
-    model_name='i3d'
+    model_name='swin_tiny'
     data_pipeline,model=set_model(MODEL_CFGS[model_name])
 
     FEAT_CFGS={
