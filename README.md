@@ -14,17 +14,21 @@ pip install torchvision==0.11.0+cu111 torchaudio==0.10.0 -f https://download.pyt
 
 ## 1.2 install mmaction2
 1.install MMEngine, MMCV, using MIM.
+```bash
 pip install -U openmim
 mim install mmengine
 <!-- mim install mmcv -->
 pip install mmcv-full==1.3.18 -f https://download.openmmlab.com/mmcv/dist/cu111/torch1.10.0/index.html
+```
 
 2.Install MMAction2.
 Install from source(Recommended):
 <!-- git clone https://github.com/open-mmlab/mmaction2.git -->
+```bash
 git clone git@github.com:MohammadRezaQaderi/Video-Swin-Transformer.git
 cd mmaction2
 pip install -v -e .
+```
 
 - Verify the installation of mmaction2
 ```bash
