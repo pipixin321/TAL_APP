@@ -35,16 +35,19 @@ inputs=[gr.Video(),
         gr.Slider(0, 640, value=180, step=10, label="video size", info="resize video's short side to a new value,set 0 to keep the original size")]
 outputs=['playable_video',gr.JSON()]
 examples=[
-    ["./examples/video_test_0000004.mp4",180],
     ["./examples/video_test_0000062.mp4",180],
+    ["./examples/video_test_0000635.mp4",180],
     ["./examples/video_test_0000450.mp4",180],
-    ["./examples/video_test_0000846.mp4",180],
 ]
 demo = gr.Interface(tal_func, 
                     inputs, 
                     outputs, 
                     examples=examples,
-                    cache_examples=False)
+                    cache_examples=False,
+                    title='Demo For Temporal Action Localization',
+                    description='Temporal Action Localization(TAL) attempts to temporally localize and classify \
+                                    action instances in the untrimmed video. \
+                                    \nInput:Video(.mp4) \nOutput:Localization Results')
 
 if __name__ == "__main__":
     # demo.launch(share=True,auth=('zhx','123'))
