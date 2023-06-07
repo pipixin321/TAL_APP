@@ -7,6 +7,7 @@ import pickle
 import cv2
 from termcolor import colored
 from tqdm import tqdm
+from backbone.model_cfgs import MODEL_CFGS
 
 
 def process_video(tmp_dir,new_short):
@@ -29,8 +30,8 @@ def process_video(tmp_dir,new_short):
         print('Finish extract raw frames')
 
     #extract feature
-    MODEL_CFGS={}
-    data_pipeline,model=set_model(MODEL_CFGS)
+    model_name='i3d'
+    data_pipeline,model=set_model(MODEL_CFGS[model_name])
 
     FEAT_CFGS={
         'data_prefix':os.path.join(tmp_dir,'rawframes'),

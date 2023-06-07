@@ -28,49 +28,18 @@ def parse_args():
         '--part',type=int,default=0,
         help='which part of dataset to forward(alldata[part::total])')
     parser.add_argument('--total', type=int, default=1, help='how many parts exist')
-    parser.add_argument('--resume', action='store_true', default=True, help='resume')
+    parser.add_argument('--resume', action='store_true', default=False, help='resume')
     parser.add_argument('--max-frame', type=int, default=15000, help='max number of video frames')
     args = parser.parse_args()
 
     return args
 
-def set_model(MODEL_CFGS):
-    #swin_tiny
-    data_pipeline=[
-        dict(type='UntrimmedSampleFrames',clip_len=32,frame_interval=8,start_index=1),
-        dict(type='RawFrameDecode'),
-        dict(type='Resize', scale=(-1, 224)),
-        dict(type='CenterCrop', crop_size=224),
-        dict(type='Normalize',mean=[123.675, 116.28, 103.53],std=[58.395, 57.12, 57.375],to_bgr=False),
-        dict(type='FormatShape', input_format='NCTHW'),
-        dict(type='Collect', keys=['imgs'], meta_keys=[]),
-        dict(type='ToTensor', keys=['imgs'])
-    ]
+def set_model(CFGS):
+    #load model configs
+    data_pipeline=CFGS['data_pipeline']
     data_pipeline = Compose(data_pipeline)
-
-    model_cfg = dict(
-    type='Recognizer3D',
-    backbone=dict(
-        type='SwinTransformer3D',
-        patch_size=(2,4,4),
-        embed_dim=96,
-        depths=[2, 2, 6, 2],
-        num_heads=[3, 6, 12, 24],
-        window_size=(8,7,7),
-        mlp_ratio=4.,
-        qkv_bias=True,
-        qk_scale=None,
-        drop_rate=0.,
-        attn_drop_rate=0.,
-        drop_path_rate=0.2,
-        patch_norm=True),
-    cls_head=dict(
-        type='I3DHead',
-        in_channels=768,
-        num_classes=400,
-        spatial_type='avg'),
-    test_cfg=dict(average_clips=None,feature_extraction=True))
-    ckpt='/mnt/data1/zhx/TAL_APP/backbone/swinvivit/swin_tiny_patch244_window877_kinetics400_1k.pth'
+    model_cfg=CFGS['model_cfg']
+    ckpt=CFGS['ckpt']
 
     #load model
     t0 =time.perf_counter() 

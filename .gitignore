@@ -1,6 +1,6 @@
 .vscode
 __pycache__
-backbone
+backbone/ckpt
 datasets
 examples
 flagged
