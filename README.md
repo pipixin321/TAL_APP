@@ -5,10 +5,12 @@
 
 ## 1.Enviroment
 ## 1.1 create conda environment & install pytorch
+```bash
 conda create --name tal_app python=3.7
 conda activate tal_app
 pip install torch==1.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
 pip install torchvision==0.11.0+cu111 torchaudio==0.10.0 -f https://download.pytorch.org/whl/torch_stable.html
+```
 
 ## 1.2 install mmaction2
 1.install MMEngine, MMCV, using MIM.
