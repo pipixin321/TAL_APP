@@ -43,10 +43,7 @@ examples=[
 demo = gr.Interface(tal_func, 
                     inputs, 
                     outputs, 
-                    examples=[
-                        [os.path.join(os.path.dirname(__file__), 
-                                "examples/video_test_0000004.mp4"),180]
-                                ],
+                    examples=examples,
                     cache_examples=False)
 
 if __name__ == "__main__":
