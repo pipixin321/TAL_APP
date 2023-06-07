@@ -36,6 +36,7 @@ def post_process(results=None,score_thresh=0.2,inter_thresh=0.9):
                 continue
         keep_result[c]=keep_c
     keep_result=[keep_result[c][i] for c in keep_result.keys() for i in range(len(keep_result[c]))]
+    keep_result.sort(key=lambda k: k['segment'][0])
     
     return keep_result
 

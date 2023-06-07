@@ -9,7 +9,7 @@ from termcolor import colored
 from tqdm import tqdm
 
 
-def process_video(tmp_dir):
+def process_video(tmp_dir,new_short):
     vid_path=os.path.join(tmp_dir,'video')
     frame_path=os.path.join(tmp_dir,'rawframes')
     feat_path=os.path.join(tmp_dir,'features')
@@ -22,7 +22,7 @@ def process_video(tmp_dir):
             'task':'rgb',
             'level':1,
             'ext':'mp4',
-            'new_short':180,
+            'new_short':new_short,
             'use_opencv':True
         }
         extract_from_video(FRAME_CFGS)
@@ -68,5 +68,5 @@ def process_video(tmp_dir):
     return keep_results
 
 if __name__ == '__main__':
-    results=process_video('./tmp')
+    results=process_video('./tmp',new_short=180)
     

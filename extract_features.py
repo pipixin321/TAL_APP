@@ -174,24 +174,25 @@ def forward_data(args,frame_dir,num_frames,start_index,
         print(colored('<Video Clipped>:','green')+'clip shape={},running time {:.3f} s'.format(imgs.shape,t4-t3))
 
     print(colored('>>>Extracting Feature...','yellow'))
-    results=[]
-    num_clip = imgs.shape[0]
-    total_iters=num_clip//batch_size
-    with torch.no_grad():
-        iters_feat=tqdm(range(total_iters),total=total_iters,desc='Extracting Feature') #if progress is None else progress.tqdm(range(total_iters),desc='Extracting Feature')
-        for i in iters_feat:
-            part=imgs[batch_size*i:batch_size*(i+1)]
-            part = part.to(device)
-            feat = model.forward(part, return_loss=False)
-            results.append(feat)
-        if num_clip%batch_size!=0:
-            part=imgs[batch_size*(i+1):]
-            part = part.to(device)
-            feat = model.forward(part, return_loss=False)
-            results.append(feat)
-    results = np.concatenate(results)
-    t5 = time.perf_counter()
-    print(colored('<Feature Extracted>:','green')+'feat shape={},running time {:.3f} s'.format(results.shape,t5-t4))
+    iters_feat=tqdm(range(1),total=1,desc='Extracting Feature')
+    for i in iters_feat:
+        results=[]
+        num_clip = imgs.shape[0]
+        total_iters=num_clip//batch_size
+        with torch.no_grad():
+            for i in range(total_iters):
+                part=imgs[batch_size*i:batch_size*(i+1)]
+                part = part.to(device)
+                feat = model.forward(part, return_loss=False)
+                results.append(feat)
+            if num_clip%batch_size!=0:
+                part=imgs[batch_size*(i+1):]
+                part = part.to(device)
+                feat = model.forward(part, return_loss=False)
+                results.append(feat)
+        results = np.concatenate(results)
+        t5 = time.perf_counter()
+        print(colored('<Feature Extracted>:','green')+'feat shape={},running time {:.3f} s'.format(results.shape,t5-t4))
 
     return results
 

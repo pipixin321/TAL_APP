@@ -9,6 +9,7 @@ from multiprocessing import Lock, Pool
 
 import mmcv
 import numpy as np
+from tqdm import tqdm
 
 
 def extract_frame(vid_item):
@@ -39,7 +40,7 @@ def extract_frame(vid_item):
                 out_full_path = osp.join(out_full_path, video_name)
 
                 vr = mmcv.VideoReader(full_path)
-                for i, vr_frame in enumerate(vr):
+                for i, vr_frame in tqdm(enumerate(vr),total=len(vr),desc='Extracting rawframes...'):
                     if vr_frame is not None:
                         w, h, _ = np.shape(vr_frame)
                         if args.new_short == 0:

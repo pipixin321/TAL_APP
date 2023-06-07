@@ -5,7 +5,7 @@ import shutil
 from processor import process_video
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-def tal_func(video,progress=gr.Progress(track_tqdm=True)):
+def tal_func(video,new_short,progress=gr.Progress(track_tqdm=True)):
     print('Creating tmp folder')
     tmp_dir=os.path.join(current_dir,'tmp')
     if os.path.exists(tmp_dir): 
@@ -25,25 +25,34 @@ def tal_func(video,progress=gr.Progress(track_tqdm=True)):
     os.remove(video)
 
     print('Processing video...')
-    results=process_video(tmp_dir)
+    results=process_video(tmp_dir,new_short)
 
     outvid='./tmp/result.mp4'
     return outvid,results
 
 
-inputs=gr.Video()
+inputs=[gr.Video(),
+        gr.Slider(0, 640, value=180, step=10, label="video size", info="resize video's short side to a new value,set 0 to keep the original size")]
 outputs=['playable_video',gr.JSON()]
+examples=[
+    ["./examples/video_test_0000004.mp4",180],
+    ["./examples/video_test_0000062.mp4",180],
+    ["./examples/video_test_0000450.mp4",180],
+    ["./examples/video_test_0000846.mp4",180],
+]
 demo = gr.Interface(tal_func, 
                     inputs, 
                     outputs, 
-                    examples=[os.path.join(os.path.dirname(__file__), 
-                                "examples/video_test_0000004.mp4")],
+                    examples=[
+                        [os.path.join(os.path.dirname(__file__), 
+                                "examples/video_test_0000004.mp4"),180]
+                                ],
                     cache_examples=False)
 
 if __name__ == "__main__":
     # demo.launch(share=True,auth=('zhx','123'))
     # demo.launch(share=False)
-    demo.queue(concurrency_count=20,status_update_rate=0.1).launch(share=False)
+    demo.queue(concurrency_count=1,max_size=1).launch(share=True)
 
 
 
