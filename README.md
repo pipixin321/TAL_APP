@@ -1,6 +1,6 @@
 # A Demo for Temporal Action Localization
 <p>
-  <img src="./figs/demo.png" width="400" />
+  <img src="./figs/demo.png" width="800" />
 </p>
 
 ## 1.Enviroment
