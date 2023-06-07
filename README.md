@@ -64,3 +64,10 @@ Filtering out the overly-long videos by param 'max-frame',the overly-long videos
 cd dataset
 python extract_datasets_feat.py --part <part> --total <total> --resume --max-frame 15000
 ```
+
+## 3.Demo built with gradio
+- set demo.launch(share=True) if you want to share your app to others.
+- The whole process runs on the host server so the client(PC,Android,apple...) does not need to install the environment.
+```bash
+python main.py
+```
