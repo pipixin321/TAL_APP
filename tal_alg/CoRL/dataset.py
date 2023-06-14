@@ -31,7 +31,7 @@ class dataset(Dataset):
             self.feature_dir = os.path.join(self.data_path, "test")
             self.data_list = [item.strip() for item in list(open(os.path.join(self.data_path, "split_test.txt")))]
             print("number of test videos:{}".format(len(self.data_list)))
-        self.feature_dir="/mnt/data1/zhx/TAL_APP/datasets/THUMOS14/features/swin_tiny"
+        self.feature_dir=args.feat_path
         self.class_name_lst = args.class_name_lst
         self.action_class_idx_dict={action_cls:idx for idx, action_cls in enumerate(self.class_name_lst)}
         self.action_class_num = args.action_cls_num

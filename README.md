@@ -62,7 +62,7 @@ Some videos are too long and cannot be loaded into memory when running in parall
 Filtering out the overly-long videos by param 'max-frame',the overly-long videos will be divided to <max-frame> picies.
 ```bash
 cd dataset
-python extract_datasets_feat.py --part <part> --total <total> --resume --max-frame 15000
+python extract_datasets_feat.py --gpu-id <gpu> --part <part> --total <total>  --resume --max-frame 10000
 ```
 
 ## 3.Demo built with gradio

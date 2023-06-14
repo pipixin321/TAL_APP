@@ -15,6 +15,7 @@ from mmaction.models import build_model
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Extract Feature')
+    parser.add_argument('--gpu-id', type=int, default=0, help='gpu id')
     parser.add_argument('--data-prefix', default='', help='input_data')
     parser.add_argument('--output-prefix', default='', help='output prefix')
     parser.add_argument('--data-list',default='',help='video list of the dataset')
@@ -66,8 +67,7 @@ def extract_feat(data_pipeline,model,FEAT_CFGS):
 
     #load to gpu device
     t1 = time.perf_counter()
-    gpu_id=args.part
-    device = torch.device("cuda:{}".format(gpu_id) if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:{}".format(args.gpu_id) if torch.cuda.is_available() else "cpu")
     model=model.to(device)
     t2 = time.perf_counter()
     print(colored('<Model Loaded>:','green')+'device={},running time {:.3f} s'.format(device,t2-t1))
