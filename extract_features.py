@@ -53,7 +53,7 @@ def set_model(CFGS):
 
 
 # def extract_feat(data_pipeline,model,tmp_path):
-def extract_feat(data_pipeline,model,FEAT_CFGS):
+def extract_feat(data_pipeline,model,FEAT_CFGS,gpu=0):
     args = parse_args()
     args.data_prefix=FEAT_CFGS['data_prefix']
     args.output_prefix=FEAT_CFGS['output_prefix']
@@ -67,7 +67,7 @@ def extract_feat(data_pipeline,model,FEAT_CFGS):
 
     #load to gpu device
     t1 = time.perf_counter()
-    device = torch.device("cuda:{}".format(args.gpu_id) if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:{}".format(gpu) if torch.cuda.is_available() else "cpu")
     model=model.to(device)
     t2 = time.perf_counter()
     print(colored('<Model Loaded>:','green')+'device={},running time {:.3f} s'.format(device,t2-t1))

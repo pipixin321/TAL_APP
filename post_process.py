@@ -128,7 +128,6 @@ if __name__ == '__main__':
     keep_result=post_process()
     print(keep_result)
 
-    
     vid_dir='/mnt/data1/zhx/TAL_APP/tmp/video'
     vids=os.listdir(vid_dir)
     vid=vids[0]
