@@ -8,12 +8,11 @@ import pickle
 import numpy as np
 import utils
 
-
-
-def infer_single(feature,duration):
-    args=options.parse_args()
-    os.environ['CUDA_VIVIBLE_DEVICES'] = args.gpu
-    args.device = torch.device("cuda:{}".format(args.gpu) if torch.cuda.is_available() else "cpu")
+def infer_single_CoRL(backbone,feature,duration,gpu=0):
+    hyp = './cfgs/THUMOS14/thumos_{}.yaml'.format(backbone)
+    args=options.parse_args(hyp)
+    os.environ['CUDA_VIVIBLE_DEVICES'] = str(gpu)
+    args.device = torch.device("cuda:{}".format(gpu) if torch.cuda.is_available() else "cpu")
     net=Model(args)
 
     args.checkpoint=os.path.join(args.model_path,"model_seed_{}.pkl".format(args.seed))
@@ -124,4 +123,4 @@ if __name__ == '__main__':
     file=files[0]
     with open(os.path.join(tmp_feat_dir,file),'rb') as f:
         feature=pickle.load(f)
-    result=infer_single(feature,duration)
+    result=infer_single_CoRL(feature,duration)

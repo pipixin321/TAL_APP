@@ -63,7 +63,7 @@ _CLASS_NAME = {
 }
 
 
-def parse_args():
+def parse_args(hyp):
     parser=argparse.ArgumentParser("This is a baseline of Weakly_supervised Temporal Action Localization")
 
     # root="./"
@@ -72,22 +72,10 @@ def parse_args():
     parser.add_argument('--mode', type=str, default="train")
     parser.add_argument('--ckpt_path', type=str, default=root+"ckpt")
     parser.add_argument('--checkpoint', type=str, default="")
-    parser.add_argument('--hyp', type=str, default='./cfgs/THUMOS14/thumos_swin_tiny.yaml', help='hyperparameters path')
+    # parser.add_argument('--hyp', type=str, default='./cfgs/THUMOS14/thumos_swin_tiny.yaml', help='hyperparameters path')
     args=parser.parse_args() 
 
-    #dataset specific hyper-params
-    # if args.hyp=="thu":
-    #     # args.hyp=root+'cfgs/THUMOS14/thumos_hyp.yaml'
-    #     args.hyp=root+'cfgs/THUMOS14/thumos_swin_tiny.yaml'
-    # elif args.hyp=="act":
-    #     args.hyp=root+'cfgs/ActivityNet13/activitynet_hyp.yaml'
-    # elif args.hyp=="beoid":
-    #     args.hyp=root+'cfgs/BEOID/beoid_hyp.yaml'
-    # elif args.hyp=="gtea":
-    #     args.hyp=root+'cfgs/GTEA/gtea_hyp.yaml'
-    # else:
-    #     AssertionError("Invalid dataset")
-    args.hyp=utils.check_file(args.hyp)
+    args.hyp=utils.check_file(hyp)
     with open(args.hyp) as f:
         args.hyp=yaml.load(f,Loader=yaml.FullLoader)
 

@@ -3,23 +3,23 @@
 #dataset info
 dataset: "THUMOS14"
 data_path: "./dataset/THUMOS14" #LACP->THUMOS14
-feat_path: "/mnt/data1/zhx/TAL_APP/datasets/THUMOS14/features/i3d"
+feat_path: "/mnt/data1/zhx/TAL_APP/datasets/THUMOS14/features/slowfast101"
 modal: "all" #['rgb', 'flow', 'all']
 frames_per_sec: 25 
 segment_frames_num: 16 
-feature_dim: 2048
+feature_dim: 2304
 tIoU_thresh: "np.linspace(0.1, 0.7, 7)" #ACM np.arange(0.1, 1.00, 0.10)"
 
 #training setting
 num_workers: 4
 num_iters: 1200
 test_iter: 50
-batch_size: 16
+batch_size: 8
 lr: 0.0001 #0.0001
 weight_decay: 0.0005 #0.005 0.0005
 dropout: 0.7
 r_act: 8
-lambdas: "[0,0.5,1,1]" #[vid_loss,frame_loss,bkg_frame_loss,count_loss,feat_loss]
+lambdas: "[1,0.5,1,1]" #[vid_loss,frame_loss,bkg_frame_loss,count_loss,feat_loss]
 transformer_args: {'layer_num': 1,'drop_out': 0.3,'num_heads': 8,'dim_feedforward': 128} #2 0.3 8 256/128
 
 #after processing param  #best initial
@@ -44,8 +44,8 @@ count_loss: "False"
 pseudo_freq: 0
 
 stage: 2
-run_info: 'i3d_rgb'   #point_detector/proto(maskSA_CA)(video0_pN5) 54.23    point_detector/proto_mask(SAmask_CA)(video0_pN5) 54.43
-gpu: '2'
+run_info: 'slowfast'
+gpu: '1'
 num_segments: -1 #ACM 750
 
 

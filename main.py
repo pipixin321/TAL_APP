@@ -7,6 +7,7 @@ from processor import process_video
 current_dir = os.path.dirname(os.path.abspath(__file__))
 def tal_func(video,new_short,backbone,detector,
              progress=gr.Progress(track_tqdm=True)):
+    print(video)
     print('Creating tmp folder')
     tmp_dir=os.path.join(current_dir,'tmp')
     if os.path.exists(tmp_dir): 
@@ -30,20 +31,20 @@ def tal_func(video,new_short,backbone,detector,
     return outvid,results
 
 
-inputs=[gr.Video(),
+inputs=[gr.Video(label='Input Video'),
         gr.Slider(0, 640, value=180, step=10, label="video size", info="resize video's short side to a new value,set 0 to keep the original size"),
         gr.inputs.Radio(['I3D','SlowFast','CSN','SwinViViT'],default='SwinViViT',label='backbone'),
         gr.inputs.Radio(['ActionFormer(Fully-supervised)','CoRL(Weakly-Supervised)'],default='CoRL(Weakly-Supervised)',label='detector'),]
-outputs=['playable_video',gr.JSON()]
+outputs=[gr.Video(label='Output Video'), gr.JSON(label='Detection Results')] #'playable_video'
 examples=[
-    ["./examples/video_test_0000062.mp4",180],
-    ["./examples/video_test_0000635.mp4",180],
-    ["./examples/video_test_0000450.mp4",180],
+    ["./examples/video_test_0000062.mp4",180,'SwinViViT','ActionFormer(Fully-supervised)'],
+    ["./examples/video_test_0000635.mp4",180,'SwinViViT','ActionFormer(Fully-supervised)'],
+    ["./examples/video_test_0000450.mp4",180,'SwinViViT','ActionFormer(Fully-supervised)'],
 ]
 demo = gr.Interface(tal_func, 
                     inputs, 
                     outputs, 
-                    # examples=examples,
+                    examples=examples,
                     cache_examples=False,
                     title='Demo For Temporal Action Localization',
                     description='Temporal Action Localization(TAL) attempts to temporally localize and classify \

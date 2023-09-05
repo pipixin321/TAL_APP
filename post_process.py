@@ -75,8 +75,8 @@ def show_in_video(cap,preds):
             color_lst=[[255,255,255],#进度条底色
                        [200,200,200],#mask两侧颜色
                         [153,153,153],#进度条背景片段颜色
-                        [[0,102,255],[153,0,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255],
-                         [0,102,255],[153,0,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255]]#进度条前景片段颜色
+                        [[153,0,255],[0,102,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255],
+                         [153,0,255],[0,102,255],[255,0,102],[102,255,0],[0,255,255],[0,0,255],[255,102,255]]#进度条前景片段颜色
                         ]
             f_out=np.zeros((h+dh,w+dw),dtype=np.uint8)
             f_out=cv2.cvtColor(f_out,cv2.COLOR_GRAY2BGR)
@@ -105,8 +105,8 @@ def show_in_video(cap,preds):
             if cur_pred is not None:
                 s,e=cur_pred["segment"]
                 f_color=color_lst[3][cls_lst.index(cur_pred['label'])]
-                f_out[:,0:int(dw/2)]=f_color
-                f_out[:,-int(dw/2):-1,:]=f_color
+                f_out[:,0:int(dw/2)-5]=f_color
+                f_out[:,-int(dw/2)+5:-1,:]=f_color
                 f_out[h:,int(dw/2+w*s/duration):cur_x]=f_color
                 frame=cv2.putText(frame,'prediction:{}({:.2f}s~{:.2f}s)'.format(cur_pred["label"],s,e)
                                       ,(10,20),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)

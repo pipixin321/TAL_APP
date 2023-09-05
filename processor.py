@@ -35,6 +35,7 @@ def process_video(tmp_dir,new_short,backbone,detector):
 
     #extract feature
     backbone_trans={'I3D':'i3d','SlowFast':'slowfast101','CSN':'csn','SwinViViT':'swin_tiny'}
+    if detector == 'CoRL(Weakly-Supervised)': backbone = 'I3D'
     backbone=backbone_trans[backbone]
     data_pipeline,model=set_model(MODEL_CFGS[backbone])
 
@@ -84,7 +85,7 @@ def process_video(tmp_dir,new_short,backbone,detector):
 if __name__ == '__main__':
     results=process_video('./tmp',
                           new_short=180,
-                          backbone='SwinViViT',
+                          backbone='I3D',
                           detector='ActionFormer(Fully-supervised)',
                         #   detector='CoRL(Weakly-Supervised)',
                           ) 

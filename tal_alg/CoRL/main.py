@@ -117,5 +117,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-    args=options.parse_args()
+    hyp = '/mnt/data1/zhx/TAL_APP/tal_alg/CoRL/cfgs/THUMOS14/thumos_i3d.yaml'
+    args=options.parse_args(hyp)
     main(args)

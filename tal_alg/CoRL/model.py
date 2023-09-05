@@ -87,7 +87,7 @@ class CrossAttentionTransformer(nn.Module):
         self.dropout1 = nn.Dropout(dropout)
         self.dropout2 = nn.Dropout(dropout)
 
-        self.proto=nn.Parameter(torch.zeros((20,5,768)),requires_grad=False)
+        self.proto=nn.Parameter(torch.zeros((20,5,2048)),requires_grad=False)
 
     def forward(self,feature,prototypes=None,mask=None):
         if prototypes is None:
