@@ -53,7 +53,7 @@ def set_model(CFGS):
 
 
 # def extract_feat(data_pipeline,model,tmp_path):
-def extract_feat(data_pipeline,model,FEAT_CFGS,gpu=0):
+def extract_feat(data_pipeline, model, FEAT_CFGS, gpu=0):
     args = parse_args()
     args.data_prefix=FEAT_CFGS['data_prefix']
     args.output_prefix=FEAT_CFGS['output_prefix']
@@ -103,11 +103,12 @@ def extract_feat(data_pipeline,model,FEAT_CFGS,gpu=0):
         if num_frames<args.max_frame:
             video_feat=forward_data(args,frame_dir,num_frames,1,
                                     data_pipeline,model,device,args.batch_size)
-            output_file = osp.join(args.output_prefix, osp.basename(item)+'.pkl')
-            with open(output_file, 'wb') as fout:
-                pickle.dump(video_feat, fout)
-                print(colored('<Feature Saved>:','green')+item+'.pkl')
-            prog_bar.update()
+            video_feats = video_feat
+            # output_file = osp.join(args.output_prefix, osp.basename(item)+'_{}.pkl'.format(FEAT_CFGS['backbone']))
+            # with open(output_file, 'wb') as fout:
+            #     pickle.dump(video_feat, fout)
+            #     print(colored('<Feature Saved>:','green')+item+'.pkl')
+            # prog_bar.update()
         else:
             print(colored('\n<Warning>:','red')+'video is too long,{}:{}(<{}frames)'.format(item,num_frames,args.max_frame))
             video_feats=[]
@@ -123,11 +124,12 @@ def extract_feat(data_pipeline,model,FEAT_CFGS,gpu=0):
                 video_feats.append(video_feat)
             
             video_feats=np.concatenate(video_feats)
-            output_file = osp.join(args.output_prefix, osp.basename(item)+'.pkl')
-            with open(output_file, 'wb') as fout:
-                pickle.dump(video_feats, fout)
-                print(colored('<Feature Saved>:','green')+item+'.pkl'+' vidfeat shape={}'.format(video_feats.shape))
-            prog_bar.update()
+
+        output_file = osp.join(args.output_prefix, osp.basename(item)+'_{}.pkl'.format(FEAT_CFGS['backbone']))
+        with open(output_file, 'wb') as fout:
+            pickle.dump(video_feats, fout)
+            print(colored('<Feature Saved>:','green')+item+'.pkl'+' vidfeat shape={}'.format(video_feats.shape))
+        prog_bar.update()
 
 def forward_data(args,frame_dir,num_frames,start_index,
                  data_pipeline,model,device,batch_size):

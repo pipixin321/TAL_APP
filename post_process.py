@@ -5,14 +5,16 @@ import os
 import json
 import cv2
 
-def post_process(results=None,score_thresh=0.2,inter_thresh=0.9):
-    tmp_json_path='./tmp/results.json'
-    if results is not None and not os.path.exists(tmp_json_path):
-        with open(tmp_json_path, 'w') as f:
-            json.dump(results, f, indent=4)
-    if results is None:
-        with open(tmp_json_path,'r') as f:
-            results=json.load(f)
+def post_process(result_file, score_thresh=0.2, inter_thresh=0.9):
+    # tmp_json_path='./tmp/results.json'
+    # if results is not None and not os.path.exists(tmp_json_path):
+    #     with open(tmp_json_path, 'w') as f:
+    #         json.dump(results, f, indent=4)
+    # if results is None:
+    #     with open(tmp_json_path,'r') as f:
+    #         results=json.load(f)
+    with open(result_file, 'r') as f:
+        results=json.load(f)
 
     results=list(filter(lambda x:x['score']>score_thresh,results)) 
 
@@ -40,12 +42,13 @@ def post_process(results=None,score_thresh=0.2,inter_thresh=0.9):
     
     return keep_result
 
-def show_in_video(cap,preds):
+def show_in_video(vid_dir, preds):
     cls_lst=[]
     for p in preds:
         if p['label'] not in cls_lst:
             cls_lst.append(p['label'])
     
+    cap = cv2.VideoCapture(vid_dir)
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
     duration=cap.get(7)/cap.get(5)
@@ -124,13 +127,13 @@ def show_in_video(cap,preds):
     out_mp4.release()
 
 
-if __name__ == '__main__':
-    keep_result=post_process()
-    print(keep_result)
+# if __name__ == '__main__':
+#     keep_result=post_process()
+#     print(keep_result)
 
-    vid_dir='/mnt/data1/zhx/TAL_APP/tmp/video'
-    vids=os.listdir(vid_dir)
-    vid=vids[0]
-    cap = cv2.VideoCapture(os.path.join(vid_dir,vid))
-    show_in_video(cap,keep_result)
+#     vid_dir='/mnt/data1/zhx/TAL_APP/tmp/video'
+#     vids=os.listdir(vid_dir)
+#     vid=vids[0]
+#     cap = cv2.VideoCapture(os.path.join(vid_dir,vid))
+#     show_in_video(cap,keep_result)
    
