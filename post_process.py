@@ -72,7 +72,7 @@ def show_in_video(vid_dir, preds):
         if ret:
             # print(t)
             frame=cv2.resize(frame,(w,h))
-            frame=cv2.putText(frame,"time:%.2fs"%(t),(10,10),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
+            frame=cv2.putText(frame,"time:%.2fs"%(t),(10,30),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
 
             # initialize output frame
             color_lst=[[255,255,255],#进度条底色
@@ -112,7 +112,7 @@ def show_in_video(vid_dir, preds):
                 f_out[:,-int(dw/2)+5:-1,:]=f_color
                 f_out[h:,int(dw/2+w*s/duration):cur_x]=f_color
                 frame=cv2.putText(frame,'prediction:{}({:.2f}s~{:.2f}s)'.format(cur_pred["label"],s,e)
-                                      ,(10,20),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
+                                      ,(10,40),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
             if len(past_pred)>0:
                 for p_pred in past_pred:
                     s,e=p_pred["segment"]
@@ -126,14 +126,34 @@ def show_in_video(vid_dir, preds):
     cap.release()
     out_mp4.release()
 
+def trim_video(vid_dir, preds):
+    print(preds)
 
-# if __name__ == '__main__':
-#     keep_result=post_process()
-#     print(keep_result)
+    cap = cv2.VideoCapture(vid_dir)
+    width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+    height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+    duration=cap.get(7)/cap.get(5)
+    out_mp4 = cv2.VideoWriter("./tmp/result_trimmed.mp4", 
+                              cv2.VideoWriter_fourcc(*'mp4v'),
+                              30,(int(width),int(height)))
 
-#     vid_dir='/mnt/data1/zhx/TAL_APP/tmp/video'
-#     vids=os.listdir(vid_dir)
-#     vid=vids[0]
-#     cap = cv2.VideoCapture(os.path.join(vid_dir,vid))
-#     show_in_video(cap,keep_result)
+    ret=True
+    while ret:
+        t=cap.get(0)/1000
+        ret, frame=cap.read()
+        if ret:
+            for pred in preds:
+                if t>pred["segment"][0] and t<pred["segment"][1]:
+                    out_mp4.write(frame)
+                    break
+    cap.release()
+    out_mp4.release()
+
+
+if __name__ == '__main__':
+    keep_result=post_process('/mnt/data1/zhx/TAL_APP/tmp/results_swin_tiny_ActionFormer(Fully-supervised).json')
+    print(keep_result)
+
+    # show_in_video('/mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000062.mp4',keep_result)
+    trim_video('/mnt/data1/zhx/TAL_APP/tmp/video/video_test_0000062.mp4',keep_result)
    

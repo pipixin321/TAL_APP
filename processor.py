@@ -3,7 +3,7 @@ from extract_rawframes import extract_from_video
 from extract_features import set_model,extract_feat
 from tal_alg.CoRL.inference import infer_single_CoRL
 from tal_alg.actionformer_release.inference import infer_single_actionformer
-from post_process import post_process,show_in_video
+from post_process import post_process,show_in_video,trim_video
 import pickle
 import cv2
 from termcolor import colored
@@ -89,6 +89,7 @@ def process_video(tmp_dir, vid_name, new_short, backbone, detector, postprocess_
         
         vid_dir=os.path.join(vid_path, vid_name)
         show_in_video(vid_dir, keep_results)
+        trim_video(vid_dir, keep_results)
 
         t2 = time.perf_counter()
         print(colored('<Post processing Done>:','green')+'running time {:.3f} s'.format(t2-t1))
