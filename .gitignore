@@ -1,9 +1,9 @@
 .vscode
 __pycache__
 backbone/ckpt
-datasets
 examples
 flagged
 gradio_cached_examples
 tal_alg/CoRL/ckpt/
 tmp
+datasets/THUMOS14
