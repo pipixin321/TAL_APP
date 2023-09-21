@@ -2,7 +2,7 @@ import os,time,json
 from extract_rawframes import extract_from_video
 from extract_features import set_model,extract_feat
 from tal_alg.CoRL.inference import infer_single_CoRL
-from tal_alg.actionformer_release.inference import infer_single_actionformer
+from tal_alg.actionformer.inference import infer_single_actionformer
 from post_process import post_process,show_in_video,trim_video
 import pickle
 import cv2
