@@ -24,7 +24,7 @@ thumos_class_list=['BaseballPitch', 'BasketballDunk', 'Billiards', 'CleanAndJerk
 
 def infer_single_actionformer(backbone,vid,feats,fps,duration,gpu=0):
     topk = 100
-    root = '/mnt/data1/zhx/TAL_APP/tal_alg/actionformer_release'
+    root = os.path.dirname(os.path.abspath(__file__))
     config = os.path.join(root, 'configs/thumos_{}.yaml'.format(backbone)) 
     ckpt = os.path.join(root, 'ckpt/thumos_{}/best.pth.tar'.format(backbone))
 

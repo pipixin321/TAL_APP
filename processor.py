@@ -99,9 +99,10 @@ def process_video(tmp_dir, vid_name, new_short, backbone, detector, postprocess_
 
 if __name__ == '__main__':
     results=process_video('./tmp',
+                          vid_name='video_test_0000450.mp4',
                           new_short=180,
-                          backbone='I3D',
+                          backbone='SwinViViT', #option:[I3D, SlowFast, CSN, SwinViViT]
                           detector='ActionFormer(Fully-supervised)',
-                        #   detector='CoRL(Weakly-Supervised)',
+                          postprocess_cfgs={'score_thresh':0.2, 'overlap_thresh':0.9}
                           ) 
     

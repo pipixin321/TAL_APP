@@ -79,7 +79,7 @@ if __name__ == "__main__":
                               )
     
     # demo.launch(share=True,auth=('zhx','123'))
-    demo.queue(concurrency_count=1,max_size=1).launch(share=True)
+    demo.queue(concurrency_count=1,max_size=1).launch(share=False)
 
 
 

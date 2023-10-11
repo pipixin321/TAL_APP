@@ -1,5 +1,5 @@
 import os
-ckpt_path='/mnt/data1/zhx/TAL_APP/backbone/ckpt'
+ckpt_path='.//backbone/ckpt'
 MODEL_CFGS={
     'xxx':{
         'data_pipeline':[],
