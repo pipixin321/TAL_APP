@@ -1,8 +1,11 @@
 # A Demo for Temporal Action Localization
+
+## :snake:Demo Overview
 <p>
   <img src="./figs/demo.png" width="800" />
 </p>
 
+## :book:Installation
 ## 1.Enviroment
 ## 1.1 create conda environment & install pytorch
 ```bash
