@@ -48,7 +48,7 @@ if __name__ == "__main__":
             gr.JSON(label='检测结果 (Localization Results)')] #'playable_video'
     examples=[
         ["./examples/video_test_0001433.mp4", 180, 'I3D', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
-        ["./examples/video_test_0000062.mp4", 180, 'SwinViViT', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
+        # ["./examples/video_test_0000062.mp4", 180, 'SwinViViT', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
         ["./examples/video_test_0000635.mp4", 180, 'I3D', 'CoRL(Weakly-Supervised)', 0.2, 0.9],
         ["./examples/video_test_0000450.mp4", 180, 'SwinViViT', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
     ]

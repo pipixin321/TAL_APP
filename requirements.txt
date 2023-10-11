@@ -4,3 +4,5 @@ gradio_client==0.2.5
 altair
 timm
 tensorboard_logger
+h5py
+joblib

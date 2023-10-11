@@ -38,7 +38,7 @@ def process_video(tmp_dir, vid_name, new_short, backbone, detector, postprocess_
 
     #extract feature
     backbone_trans={'I3D':'i3d','SlowFast':'slowfast101','CSN':'csn','SwinViViT':'swin_tiny'}
-    if detector == 'CoRL(Weakly-Supervised)': backbone = 'I3D' #For CoRL, we only trained I3D-based nework
+    if detector == 'CoRL(Weakly-Supervised)': backbone, detector = 'I3D', 'ActionFormer(Fully-supervised)' #Temp forbidden For CoRL
     backbone=backbone_trans[backbone]
     if not os.path.exists(os.path.join(feat_path, vid_basename+'_{}.pkl'.format(backbone))):
         data_pipeline,model=set_model(MODEL_CFGS[backbone])

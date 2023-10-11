@@ -1,7 +1,7 @@
 import os
 import numpy as np
 import sys
-sys.path.append('tal_alg/actionformer_release')
+sys.path.append('tal_alg/actionformer')
 
 # torch imports
 import torch
