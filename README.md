@@ -75,4 +75,7 @@ python main.py
 
 ## Note
 - 若未生成外部访问网站,将frpc_linux_amd64_v0.2置于anaconda3/envs/tal_app/lib/python3.8/site-packages/gradio中
+- 若未安装ffmpeg
+```bash
 sudo apt-get install ffmpeg
+```
