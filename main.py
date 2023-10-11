@@ -5,7 +5,7 @@ from processor import process_video
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-def tal_func(video, new_short, backbone, detector, score_thresh, overlap_thresh,
+def tal_func(video, new_short, backbone, detector, score_thresh, overlap_thresh, 
              progress=gr.Progress(track_tqdm=True)):
     print(video)
     tmp_dir=os.path.join(current_dir,'tmp')
@@ -62,24 +62,27 @@ if __name__ == "__main__":
                         description="**时序行为检测**是指在时序上**定位**未裁剪长视频中的行为片段并**分类** \
                                     \n(**Temporal Action Localization** attempts to temporally **localize** and **classify** action instances in the untrimmed video) \
                                     \n- **输入**: 视频[.mp4] \
-                                    \n- **输出**: 检测后的视频[.mp4] & 裁剪后的视频 & 检测结果")
-    demo2 = gr.Interface(train_network, inputs=gr.File(label='数据集文件 (Dataset File)'), outputs=gr.Text(), theme=theme,
-                        description='上传规范化的数据集压缩包,训练网络')
+                                    \n- **输出**: 检测后的视频[.mp4] & 裁剪后的视频 & 检测结果",
+                        )
+    # demo2 = gr.Interface(train_network, inputs=gr.File(label='数据集文件 (Dataset File)'), outputs=gr.Text(), theme=theme,
+    #                     description='上传规范化的数据集压缩包,训练网络')
     
-    css = ".gradio-container { \
-    background-image: url('file=figs/HUST.jpg');\
-    background-size: 100% 100%;\
-    background-repeat: no-repeat;\
-    background-attachment: fixed;}"
-    demo = gr.TabbedInterface([demo1, demo2],
-                              tab_names=['Localization', 'Train Network'],
-                              title='时序行为检测演示界面 (WebUI Demo Of Temporal Action Localization)',
-                              theme=theme,
-                              css=css,
-                              )
+    # css = ".gradio-container { \
+    # background-image: url('file=figs/HUST.jpg');\
+    # background-size: 100% 100%;\
+    # background-repeat: no-repeat;\
+    # background-attachment: fixed;}"
+    # demo = gr.TabbedInterface([demo1, demo2],
+    #                           tab_names=['Localization', 'Train Network'],
+    #                           title='时序行为检测演示界面 (WebUI Demo Of Temporal Action Localization)',
+    #                           theme=theme,
+    #                           css=css,
+    #                           )
     
     # demo.launch(share=True,auth=('zhx','123'))
-    demo.queue(concurrency_count=1,max_size=1).launch(share=False)
+    # demo.queue(concurrency_count=1,max_size=1).launch(share=False)
+    demo1.queue(concurrency_count=1, max_size=1).launch(share=True)#, server_port=50005
+
 
 
 
