@@ -43,12 +43,11 @@ if __name__ == "__main__":
         gr.components.Radio(['ActionFormer(Fully-supervised)','CoRL(Weakly-Supervised)'], label='时序行为检测网络 (Temporal Action Localization Network)'),
         gr.Slider(0, 1, value=0.2, step=0.1, label='[后处理]置信度阈值 ([Postprocess]Score threshold)'),
         gr.Slider(0, 1, value=0.9, step=0.1, label='[后处理]重叠阈值 ([Postprocess]Overlap threshold)')]
-    outputs=[gr.Video(label='输出视频 (Output Video)'),
-            gr.Video(label='裁剪后视频 (Trimmed Video)'),
+    outputs=[gr.Video(label='输出视频 (Output Video)', format='.mp4'),
+            gr.Video(label='裁剪后视频 (Trimmed Video)', format='.mp4'),
             gr.JSON(label='检测结果 (Localization Results)')] #'playable_video'
     examples=[
         ["./examples/video_test_0001433.mp4", 180, 'I3D', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
-        # ["./examples/video_test_0000062.mp4", 180, 'SwinViViT', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
         ["./examples/video_test_0000635.mp4", 180, 'I3D', 'CoRL(Weakly-Supervised)', 0.2, 0.9],
         ["./examples/video_test_0000450.mp4", 180, 'SwinViViT', 'ActionFormer(Fully-supervised)', 0.2, 0.9],
     ]
@@ -64,24 +63,24 @@ if __name__ == "__main__":
                                     \n- **输入**: 视频[.mp4] \
                                     \n- **输出**: 检测后的视频[.mp4] & 裁剪后的视频 & 检测结果",
                         )
-    # demo2 = gr.Interface(train_network, inputs=gr.File(label='数据集文件 (Dataset File)'), outputs=gr.Text(), theme=theme,
-    #                     description='上传规范化的数据集压缩包,训练网络')
+    demo2 = gr.Interface(train_network, inputs=gr.File(label='数据集文件 (Dataset File)'), outputs=gr.Text(), theme=theme,
+                        description='上传规范化的数据集压缩包,训练网络')
     
-    # css = ".gradio-container { \
-    # background-image: url('file=figs/HUST.jpg');\
-    # background-size: 100% 100%;\
-    # background-repeat: no-repeat;\
-    # background-attachment: fixed;}"
-    # demo = gr.TabbedInterface([demo1, demo2],
-    #                           tab_names=['Localization', 'Train Network'],
-    #                           title='时序行为检测演示界面 (WebUI Demo Of Temporal Action Localization)',
-    #                           theme=theme,
-    #                           css=css,
-    #                           )
+    css = ".gradio-container { \
+    background-image: url('file=figs/HUST.jpg');\
+    background-size: 100% 100%;\
+    background-repeat: no-repeat;\
+    background-attachment: fixed;}"
+    demo = gr.TabbedInterface([demo1, demo2],
+                              tab_names=['Localization', 'Train Network'],
+                              title='时序行为检测演示界面 (WebUI Demo Of Temporal Action Localization)',
+                              theme=theme,
+                              css=css,
+                              )
     
     # demo.launch(share=True,auth=('zhx','123'))
-    # demo.queue(concurrency_count=1,max_size=1).launch(share=False)
-    demo1.queue(concurrency_count=1, max_size=1).launch(share=True)#, server_port=50005
+    demo.queue(concurrency_count=1,max_size=1).launch(share=True)
+    # demo1.queue(concurrency_count=1, max_size=1).launch(share=True)
 
 
 

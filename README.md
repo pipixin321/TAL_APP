@@ -43,7 +43,10 @@ python setup.py install --user
 ```
 
 ## 1.5 install requirements
+```shell
+cd ../../../../../
 pip install -r requirements.txt
+```
 
 ## 2.Training(option*)
 - Extract RGB and Flow
@@ -69,3 +72,7 @@ python extract_datasets_feat.py --gpu-id <gpu> --part <part> --total <total>  --
 ```bash
 python main.py
 ```
+
+## Note
+- 若未生成外部访问网站,将frpc_linux_amd64_v0.2置于anaconda3/envs/tal_app/lib/python3.8/site-packages/gradio中
+sudo apt-get install ffmpeg
