@@ -1,5 +1,9 @@
-#  A Demo for Temporal Action Localization
-<img src="https://img.shields.io/github/last-commit/pipixin321/TAL_APP" alt="last-commit" />
+<h1 align="center">A Demo for Temporal Action Localization</h1>
+
+<img alt="Static Badge" src="https://img.shields.io/badge/Gradio-3.47.1-orange"><img alt="Static Badge" src="https://img.shields.io/badge/Temporal_Action_Localization-blue"><img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/pipixin321/TAL_APP">
+
+
+
 
 
 ### This is a Temporal Action Localization Demo based on the  [`gradio`](https://www.gradio.app/), **Temporal Action Localization** attempts to temporally **localize** and **classify** action instances in the untrimmed video, you can reference this repo if you want to build app for other video understanding tasks.
