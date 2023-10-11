@@ -1,5 +1,8 @@
-# A Demo for Temporal Action Localization
-### This is a Temporal Action Localization Demo based on the  `gradio`, **Temporal Action Localization** attempts to temporally **localize** and **classify** action instances in the untrimmed video, you can reference this repo if you want to build app for other video understanding tasks.
+#  A Demo for Temporal Action Localization
+<img src="https://img.shields.io/github/last-commit/pipixin321/TAL_APP" alt="last-commit" />
+
+
+### This is a Temporal Action Localization Demo based on the  [`gradio`](https://www.gradio.app/), **Temporal Action Localization** attempts to temporally **localize** and **classify** action instances in the untrimmed video, you can reference this repo if you want to build app for other video understanding tasks.
 
 ## 🐍:Demo Overview
 <p>
@@ -54,7 +57,7 @@ pip install -r requirements.txt
 Download examples and checkpoint
 - use `wget` to download the backbone checkpoint listed in ./backbone/download.py
 - we provide checkpoint of **ActionFormer** trained on thumos14 dataset and testing examples, download them and put them in `./tal_alg/actionformer/ckpt` and `./examples`, respectively.
-- Download Link[1.6G]:
+- [Download Link](https://pan.baidu.com/s/19yKxc13dIHcsyw5JtDZbkg?pwd=mdwj)
 
 ## 🚗Training(option*)
 If you want to train  a customised model, following the steps below.
