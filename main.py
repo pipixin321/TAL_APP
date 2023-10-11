@@ -5,6 +5,9 @@ from processor import process_video
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
+def mkdir(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir)
 def tal_func(video, new_short, backbone, detector, score_thresh, overlap_thresh, 
              progress=gr.Progress(track_tqdm=True)):
     print(video)
@@ -17,7 +20,7 @@ def tal_func(video, new_short, backbone, detector, score_thresh, overlap_thresh,
         if os.path.exists(tmp_dir): 
             shutil.rmtree(tmp_dir)
             os.makedirs(tmp_dir)
-        os.makedirs(vid_path)
+        mkdir(vid_path)
         print('Copying file...')
         new_video=os.path.join(vid_path,vid_name)
         shutil.copyfile(video,new_video)
@@ -39,12 +42,12 @@ if __name__ == "__main__":
     theme = 'soft' #options: base, Monochrome, Soft, Glass
     inputs=[gr.Video(label='输入视频 (Input Video)'),
         gr.Slider(0, 640, value=180, step=10, label="视频尺寸 (video size)", info="调整输入视频短边长度, 0为原始尺寸(resize video's short side to a new value, set 0 to keep the original size)"),
-        gr.components.Radio(['I3D','SlowFast','CSN','SwinViViT'],  label='视频特征提取网络 (Video Feature Extraction Network)'),
-        gr.components.Radio(['ActionFormer(Fully-supervised)','CoRL(Weakly-Supervised)'], label='时序行为检测网络 (Temporal Action Localization Network)'),
+        gr.components.Radio(['I3D','SlowFast','CSN','SwinViViT'], value='I3D', label='视频特征提取网络 (Video Feature Extraction Network)'),
+        gr.components.Radio(['ActionFormer(Fully-supervised)','CoRL(Weakly-Supervised)'], value='ActionFormer(Fully-supervised)', label='时序行为检测网络 (Temporal Action Localization Network)'),
         gr.Slider(0, 1, value=0.2, step=0.1, label='[后处理]置信度阈值 ([Postprocess]Score threshold)'),
         gr.Slider(0, 1, value=0.9, step=0.1, label='[后处理]重叠阈值 ([Postprocess]Overlap threshold)')]
-    outputs=[gr.Video(label='输出视频 (Output Video)', format='.mp4'),
-            gr.Video(label='裁剪后视频 (Trimmed Video)', format='.mp4'),
+    outputs=[gr.Video(label='输出视频 (Output Video)', format='mp4'),
+            gr.Video(label='裁剪后视频 (Trimmed Video)', format='mp4'),
             gr.JSON(label='检测结果 (Localization Results)')] #'playable_video'
     examples=[
         ["./examples/video_test_0001433.mp4", 180, 'I3D', 'ActionFormer(Fully-supervised)', 0.2, 0.9],

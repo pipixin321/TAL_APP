@@ -17,8 +17,8 @@ def process_video(tmp_dir, vid_name, new_short, backbone, detector, postprocess_
     vid_path=os.path.join(tmp_dir,'video')
     frame_path=os.path.join(tmp_dir,'rawframes')
     feat_path=os.path.join(tmp_dir,'features')
-    backbone_gpu=0
-    detector_gpu=0
+    backbone_gpu=3
+    detector_gpu=3
 
     #extract rawframes
     if not os.path.exists(os.path.join(frame_path, vid_basename)):
@@ -99,7 +99,7 @@ def process_video(tmp_dir, vid_name, new_short, backbone, detector, postprocess_
 
 if __name__ == '__main__':
     results=process_video('./tmp',
-                          vid_name='video_test_0001433.mp4',
+                          vid_name='video_test_0001319.mp4',
                           new_short=180,
                           backbone='SwinViViT', #option:[I3D, SlowFast, CSN, SwinViViT]
                           detector='ActionFormer(Fully-supervised)',

@@ -144,6 +144,8 @@ def trim_video(vid_dir, preds):
         if ret:
             for pred in preds:
                 if t>pred["segment"][0] and t<pred["segment"][1]:
+                    frame=cv2.putText(frame,'{}'.format(pred["label"])
+                                      ,(10,40),cv2.FONT_HERSHEY_SIMPLEX,0.3,(0,255,0),1)
                     out_mp4.write(frame)
                     break
     cap.release()
