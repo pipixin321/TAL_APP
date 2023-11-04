@@ -29,7 +29,7 @@ def parse_args():
         '--part',type=int,default=0,
         help='which part of dataset to forward(alldata[part::total])')
     parser.add_argument('--total', type=int, default=1, help='how many parts exist')
-    parser.add_argument('--resume', action='store_true', default=False, help='resume')
+    parser.add_argument('--resume', action='store_true', default=True, help='resume')
     parser.add_argument('--max-frame', type=int, default=15000, help='max number of video frames')
     args = parser.parse_args()
 

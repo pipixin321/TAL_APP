@@ -1,5 +1,5 @@
 import os
-ckpt_path='.//backbone/ckpt'
+ckpt_path='/home/dancer/project/TAL_APP/backbone/ckpt'
 MODEL_CFGS={
     'xxx':{
         'data_pipeline':[],
@@ -10,7 +10,7 @@ MODEL_CFGS={
     'swin_tiny':{
         'data_pipeline':
             [
-            dict(type='UntrimmedSampleFrames',clip_len=32,frame_interval=8,start_index=1),
+            dict(type='UntrimmedSampleFrames', clip_len=32, frame_interval=8,start_index=1), # 32 8 1
             dict(type='RawFrameDecode'),
             dict(type='Resize', scale=(-1, 224)),
             dict(type='CenterCrop', crop_size=224),
