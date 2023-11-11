@@ -77,10 +77,10 @@ MODEL_CFGS={
             cls_head=dict(
                 type='I3DHead',
                 in_channels=1024,
-                num_classes=600,
+                num_classes=400,
                 spatial_type='avg'),
             test_cfg=dict(average_clips=None,feature_extraction=True)),
-        'ckpt':os.path.join(ckpt_path,'swin_base_patch244_window877_kinetics600_22k.pth')
+        'ckpt':os.path.join(ckpt_path,'swin_base_patch244_window877_kinetics400_1k.pth')
     },
 
     'i3d':{
